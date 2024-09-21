@@ -79,6 +79,7 @@ local menuItems = {
   {"min altitude alert:", "A1", 0, 0,500,"m",PREC1,5 },
   {"max altitude alert:", "A2", 0, 0,10000,"m",0,1 },
   {"max distance alert:", "D1", 0, 0,100000,"m",0,10 },
+  {"min speed alert:", "STALL", 0, 0,50,"km/h",0,1 },
   {"repeat alerts every:", "T2", 10, 5,600,"sec",0,5 },
   {"rangefinder max:", "RM", 0, 0,10000," cm",0,10 },
   {"air/groundspeed unit:", "HSPD", 1, { "m/s", "km/h", "mph", "kn" }, { 1, 3.6, 2.23694, 1.94384} },
@@ -378,6 +379,7 @@ local function applyConfigValues(conf)
   conf.minAltitudeAlert = getMenuItemByName(menuItems,"A1")*0.1
   conf.maxAltitudeAlert = getMenuItemByName(menuItems,"A2")
   conf.maxDistanceAlert = getMenuItemByName(menuItems,"D1")
+  conf.minSpeedAlert = getMenuItemByName(menuItems,"STALL")
   conf.repeatAlertsPeriod = getMenuItemByName(menuItems,"T2")
   conf.battConf = getMenuItemByName(menuItems,"BC")
   conf.cell1Count = getMenuItemByName(menuItems,"CC")

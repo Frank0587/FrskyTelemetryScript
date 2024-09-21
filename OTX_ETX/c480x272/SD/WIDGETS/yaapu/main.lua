@@ -40,6 +40,7 @@ local conf = {
   minAltitudeAlert = 0,
   maxAltitudeAlert = 0,
   maxDistanceAlert = 0,
+  minSpeedAlert = 0,
   battConf = 1, -- 1=parallel,2=other
   cell1Count = 0,
   cell2Count = 0,
@@ -385,6 +386,7 @@ status.alarms = {
     { false, 0 , true, 1, 0, false, 0 }, --FS
     { false, 0 , true, 1, 0, false, 0 }, --FENCE
     { false, 0 , true, 1, 0, false, 0 }, --TERRAIN
+    { false, 0 , false, 0, 0, false, 0 }, --MIN_SPEED
 }
 
 ---------------------------------
@@ -613,7 +615,7 @@ utils.getBattPercByCell = function(voltage)
     voltage = voltage*calcCellCount()
   end
   if voltage == 0 then
-    return 99
+    return 67
   end
   if voltage >= battPercByVoltage.dischargeCurve[#battPercByVoltage.dischargeCurve][1] then
     return 99
@@ -1712,6 +1714,7 @@ local function resetAlarms()
   status.alarms[9] = { false, 0 , true, 1, 0, false, 0 } --FS
   status.alarms[10] = { false, 0 , true, 1, 0, false, 0 } --FENCE
   status.alarms[11] = { false, 0 , true, 1, 0, false, 0 } --TERRAIN
+  status.alarms[12] = { false, 0 , true, 0, 0, false, 0 } --MIN_SPEED
 end
 
 local function resetTimers()
@@ -1935,6 +1938,7 @@ end
 -- a warning sound.
 ---------------------------------
 utils.checkAlarm = function(level,value,idx,sign,sound,delay)
+  -- alarms: { notified, alarm_start, armed, type(0=min,1=max,2=timer,3=batt), grace, ready, last_alarm}
   -- once landed reset all alarms except battery alerts
   if status.timerRunning == 0 then
     if status.alarms[idx][4] == 0 then
@@ -2058,6 +2062,8 @@ local function checkEvents()
     utils.checkAlarm(1,2*telemetry.fenceBreached,10,1,"fencebreach",conf.repeatAlertsPeriod)
     utils.checkAlarm(1,2*telemetry.terrainUnhealthy,11,1,"terrainko",conf.repeatAlertsPeriod)
     utils.checkAlarm(conf.timerAlert,status.flightTime,6,1,"timealert",conf.timerAlert)
+    local speed = status.airspeedEnabled == 1 and telemetry.airspeed or telemetry.hSpeed
+    utils.checkAlarm(conf.minSpeedAlert*10/3.6,speed,12,-1,"alert",4)  --MIN_SPEED (km/h -> 0.1m/s)
   end
 
   if conf.enableBattPercByVoltage == true then
