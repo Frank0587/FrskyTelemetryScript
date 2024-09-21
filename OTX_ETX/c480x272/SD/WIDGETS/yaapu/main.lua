@@ -602,7 +602,7 @@ end
 
 utils.getBattPercByCell = function(voltage)
   if battPercByVoltage.dischargeCurve == nil then
-    return 99
+    return 66
   end
   -- when disarmed apply voltage drop to use an "under load" curve
   if telemetry.statusArmed == 0 then
@@ -996,11 +996,11 @@ end
 local function getSensorsConfigFilename(panel)
   local info = model.getInfo()
   local strPanel = panel == nil and "" or "_"..panel
-  local cfg = "/WIDGETS/YAAPU/CFG/" .. string.lower(string.gsub(info.name, "[%c%p%s%z]", "")..strPanel.."_sensors.lua")
+  local cfg = "/WIDGETS/yaapu/cfg/" .. string.lower(string.gsub(info.name, "[%c%p%s%z]", "")..strPanel.."_sensors.lua")
   local file = io.open(cfg,"r")
 
   if file == nil then
-    cfg = "/WIDGETS/YAAPU/CFG/default_sensors.lua"
+    cfg = "/WIDGETS/yaapu/cfg/default_sensors.lua"
   else
     io.close(file)
   end
@@ -1010,7 +1010,16 @@ end
 
 local function getBattConfigFilename()
   local info = model.getInfo()
-  return "/WIDGETS/YAAPU/CFG/" .. string.lower(string.gsub(info.name, "[%c%p%s%z]", "").."_batt.lua")
+  local batt = "/WIDGETS/yaapu/cfg/" .. string.lower(string.gsub(info.name, "[%c%p%s%z]", "").."_batt.lua")
+  local file = io.open(batt,"r")
+
+  if file == nil then
+    batt = "/WIDGETS/yaapu/cfg/default_batt.lua"
+  else
+    io.close(file)
+  end
+
+  return batt
 end
 
 --------------------------

@@ -3,7 +3,6 @@
 -- supported on horus class radios only
 
 
---[[
 local useCellVoltage = true;
 local voltageDrop = 0.15
 local dischargeCurve = { 
@@ -19,8 +18,8 @@ local dischargeCurve = {
   {3.86, 90},
   {4.00, 99},
   }
---]]
 
+--[[
 local useCellVoltage = false;
 local voltageDrop = 0.15
 local dischargeCurve = { 
@@ -36,5 +35,6 @@ local dischargeCurve = {
   {3.86*3, 90},
   {4.00*3, 99},
   }
+--]]
 
 return {voltageDrop=voltageDrop,useCellVoltage=useCellVoltage,dischargeCurve=dischargeCurve}
