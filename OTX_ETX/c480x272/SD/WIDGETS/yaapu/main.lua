@@ -1802,8 +1802,8 @@ local function setSensorValues()
   end
   if conf.enableCRSF then
     -- CRSF
-    setTelemetryValue(0x07, 0, 0, telemetry.vSpeed, 5 , 2 , "VSpd")
-    setTelemetryValue(0x010F, 0, 0, telemetry.homeAlt, 9 , 0 , "_Alt")
+    -- setTelemetryValue(0x07, 0, 1, telemetry.vSpeed, 5 , 2 , "VSpd")     -- no more needed since AP v4.6 
+    -- setTelemetryValue(0x010F, 0, 1, telemetry.homeAlt, 9 , 0 , "_Alt")  -- Workaround for AP before v4.6
 
     if conf.enableRPM == 2  or conf.enableRPM == 3 then
       setTelemetryValue(0, 0, 1, telemetry.rpm1, 18 , 0 , "RPM1")
