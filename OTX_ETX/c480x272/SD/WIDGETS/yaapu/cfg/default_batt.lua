@@ -2,9 +2,12 @@
 -- you need to enable the relevant option in the widget config menu
 -- supported on horus class radios only
 
+-- voltageDrop used when not armed
+-- 0.15 V/cell: useful for power devices
+-- 0.0  V/cell: useful for gliders
 
 local useCellVoltage = true;
-local voltageDrop = 0.15
+local voltageDrop = 0.0
 local dischargeCurve = { 
   {3.40,  0}, 
   {3.46, 10}, 
