@@ -852,7 +852,11 @@ utils.pushMessage = function(severity, msg)
   local now = getTime()
   if now - lastMsgTime > 50 then
     local silence = conf.disableMsgBeep == 3 or (severity >=5 and conf.disableMsgBeep == 2)
-    if silence == false then
+    if string.find(msg, "LandingGear: DEPLOY") then
+      utils.playSound("geardn")
+    elseif string.find(msg, "LandingGear: RETRACT") then
+      utils.playSound("gearup")
+    elseif silence == false then
       utils.playSound("../"..utils.mavSeverity[severity][1],true)
     end
     lastMsgTime = now
